@@ -66,7 +66,7 @@ namespace RegistrationForm.api.Controllers
         }*/
 
         //para excluir
-        /*[HttpDelete("{id}")]
+        [HttpDelete("{id}")]
 
         public async Task<Funcionario> Delete([FromRoute]string id)
         {
@@ -74,6 +74,6 @@ namespace RegistrationForm.api.Controllers
             Funcionario funcionario = await new FuncionarioRepository().Deletar(id);
             return funcionario;
 
-        }*/
+        }
     }
 }

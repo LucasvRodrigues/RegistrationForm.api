@@ -101,7 +101,7 @@ namespace RegistrationForm.api.Repository
             }
         }
 
-        /*public async Task<Funcionario> Deletar(string id)
+        public async Task<Funcionario> Deletar(string id)
         {
 
             string conexao = Connection();
@@ -111,6 +111,6 @@ namespace RegistrationForm.api.Repository
             var query = @"Delete from funcionarios Where FuncionarioId=" + id;
             await db.ExecuteAsync(query, new { FuncionarioId = id });
 
-        }*/
+        }
     }
 }
