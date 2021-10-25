@@ -11,15 +11,6 @@ namespace RegistrationForm.api.Controllers
     public class FuncionarioController : ControllerBase
     {
 
-        private readonly FuncionarioRepository _repository;
-
-        public FuncionarioController(FuncionarioRepository repository)
-        {
-
-            _repository = repository;
-
-        }
-
         [HttpGet("{id}")]
 
         public async Task<Funcionario> Get([FromRoute]string id)
@@ -68,11 +59,10 @@ namespace RegistrationForm.api.Controllers
         //para excluir
         [HttpDelete("{id}")]
 
-        public async Task<Funcionario> Delete([FromRoute]string id)
+        public void  Delete([FromRoute]string id)
         {
 
-            Funcionario funcionario = await new FuncionarioRepository().Deletar(id);
-            return funcionario;
+            new FuncionarioRepository().Deletar(id);
 
         }
     }

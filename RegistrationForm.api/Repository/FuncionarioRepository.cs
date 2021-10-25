@@ -88,7 +88,7 @@ namespace RegistrationForm.api.Repository
                 {
 
                     await db.OpenAsync();
-                    var query = @"Update funcionarios Set Nome=@Nome, Sexo=@Sexo, Pis=@Pis, Cpf=@Cpf, Salario=@Salario, Email=@Email, DataAdmissao=@DataAdmissao Where FuncionarioId=@FuncionarioId";
+                    var query = @"Update Funcionarios Set Nome=@Nome, Sexo=@Sexo, Pis=@Pis, Cpf=@Cpf, Salario=@Salario, Email=@Email, DataAdmissao=@DataAdmissao Where FuncionarioId=@FuncionarioId";
                     await db.ExecuteAsync(query, funcionario);
 
                 }
@@ -101,15 +101,15 @@ namespace RegistrationForm.api.Repository
             }
         }
 
-        public async Task<Funcionario> Deletar(string id)
+        public void  Deletar(string id)
         {
 
             string conexao = Connection();
             using var db = new SqlConnection(conexao);
 
-            await db.OpenAsync();
-            var query = @"Delete from funcionarios Where FuncionarioId=" + id;
-            await db.ExecuteAsync(query, new { FuncionarioId = id });
+            db.OpenAsync();
+            var query = @"Delete from Funcionarios Where FuncionarioId=" + id;
+            db.ExecuteAsync(query);
 
         }
     }
