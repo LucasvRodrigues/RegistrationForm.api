@@ -6,35 +6,72 @@ using System.Threading.Tasks;
 
 namespace RegistrationForm.api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/Funcionario")]
     [ApiController]
+
     public class FuncionarioController : ControllerBase
     {
+        private FuncionarioRepository _funcionarioRepository;
+
+        public FuncionarioController()
+        {
+            _funcionarioRepository = new FuncionarioRepository();
+        }
 
         [HttpGet("{id}")]
 
-        public async Task<Funcionario> Get([FromRoute]string id)
+        public async Task<IActionResult> Get([FromRoute] int id)
         {
 
-            Funcionario funcionario = await new FuncionarioRepository().ConsultarId(id);
-            return funcionario;
+            try
+            {
+
+                Funcionario funcionario = await _funcionarioRepository.ConsultarId(id);
+                if (funcionario == null)
+                {
+                    return BadRequest("Este funcionario nao esta cadastrado");
+                }
+                return Ok(funcionario);
+
+            }
+            catch (System.Exception)
+            {
+                
+                return BadRequest("Ocorreu um erro tente mais tarde");
+
+            }
 
         }
+
         [HttpGet]
 
-        public async Task<IEnumerable<Funcionario>> Get()
+        public async Task<IEnumerable<Funcionario>>  Get()
         {
 
-            var funcionario = await new FuncionarioRepository().ConsultarAll();
-            return funcionario;
+                var funcionario = await _funcionarioRepository.ConsultarAll();
+                return funcionario;
 
         }
+
         [HttpPost]
 
-        public void Post([FromBody] Funcionario funcionario)
+        public async Task<IActionResult> Post([FromBody] Funcionario funcionario)
         {
 
-            new FuncionarioRepository().Incluir(funcionario);
+            try
+            {
+                var novofuncionario = await _funcionarioRepository.Incluir(funcionario);
+                return Ok("funcionario incluido com sucesso!");
+
+            }
+            catch (System.Exception)
+            {
+
+                return BadRequest("Ocorreu um erro, tente mais tarde");
+
+            }
+
+            
 
         }
 
@@ -42,11 +79,22 @@ namespace RegistrationForm.api.Controllers
 
         [HttpPut]
 
-        public void Put([FromBody] Funcionario funcionario)
+        public async Task<IActionResult> Put([FromBody] Funcionario funcionario)
         {
 
-            new FuncionarioRepository().Atualizar(funcionario);
+            try
+            {
 
+                var put = await _funcionarioRepository.Atualizar(funcionario);
+                return Ok("Alteração realizada com sucesso");
+
+            }
+            catch (System.Exception)
+            {
+
+                return BadRequest("Ocorreu um erro, tente mais tarde");
+            }
+            
 
         }
         // modificar um parametro do obj
@@ -59,10 +107,10 @@ namespace RegistrationForm.api.Controllers
         //para excluir
         [HttpDelete("{id}")]
 
-        public void  Delete([FromRoute]string id)
+        public void Delete([FromRoute] int id)
         {
 
-            new FuncionarioRepository().Deletar(id);
+            _funcionarioRepository.Deletar(id);
 
         }
     }
